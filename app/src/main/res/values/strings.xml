@@ -1,0 +1,22 @@
+<resources>
+    <string name="app_name">SaiChurrasco</string>
+
+    <!--    CHECK BOX-->
+    <string name="boi">Boi</string>
+    <string name="porco">Porco</string>
+    <string name="frango">Frango</string>
+    <string name="linguica">Linguiça</string>
+    <!--    BUTTON-->
+    <string name="calcular">Calcular</string>
+    <string name="continuar">Continuar</string>
+    <!--    LABELS-->
+    <string name="nPessoas">Número de pessoas:</string>
+    <string name="nHomens">Número de homens:</string>
+    <string name="nMulheres">Número de mulheres:</string>
+    <string name="nCriancas">Número de crianças:</string>
+    <string name="bebeCerveja">Quantos bebem cerveja?</string>
+    <string name="bebeRefri">Quantos bebem refrigerante?</string>
+    <string name="tiposCarne">Carnes servidas:</string>
+<!--    TEXT VIEW-->
+    <string name="valorInicialSeeks">0</string>
+</resources>
