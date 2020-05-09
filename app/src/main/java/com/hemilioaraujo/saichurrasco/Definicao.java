@@ -2,6 +2,7 @@ package com.hemilioaraujo.saichurrasco;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
@@ -9,6 +10,7 @@ import android.widget.CheckBox;
 import android.widget.SeekBar;
 import android.widget.TextView;
 import android.widget.Toast;
+import com.hemilioaraujo.saichurrasco.Calculadora;
 
 import java.lang.reflect.Array;
 import java.text.DecimalFormat;
@@ -16,6 +18,7 @@ import java.text.NumberFormat;
 
 public class Definicao extends AppCompatActivity {
     NumberFormat casas_decimais = new DecimalFormat("#.##");
+    Calculadora calculadora = Calculadora.getInstance();
 
     private SeekBar seekHomens, seekMulheres, seekCriancas, seekBebeCerveja, seekBebeRefri;
     private CheckBox cheeckBoi, checkPorco, checkFrango, checkLinguica;
@@ -75,15 +78,36 @@ public class Definicao extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 double[] total_de_cada_carne;
-                double total = calcula_total_carne(seekHomens.getProgress(), seekMulheres.getProgress(), seekCriancas.getProgress());
+                double total_carne = calculadora.calcula_total_carne(seekHomens.getProgress(), seekMulheres.getProgress(), seekCriancas.getProgress());
 
-               total_de_cada_carne = calcula_total_cada_tipo_carne(cheeckBoi, checkPorco, checkFrango, checkLinguica, total);
+               total_de_cada_carne = calculadora.calcula_total_cada_tipo_carne(cheeckBoi, checkPorco, checkFrango, checkLinguica, total_carne);
 
-                textViewTotal.setText(String.valueOf(casas_decimais.format(total)));
+                textViewTotal.setText(String.valueOf(casas_decimais.format(total_carne)));
                 textViewBoi.setText(String.valueOf(casas_decimais.format(total_de_cada_carne[0])));
                 textViewPorco.setText(String.valueOf(casas_decimais.format(total_de_cada_carne[1])));
                 textViewFrango.setText(String.valueOf(casas_decimais.format(total_de_cada_carne[2])));
                 textViewLinguica.setText(String.valueOf(casas_decimais.format(total_de_cada_carne[3])));
+
+                Intent intentResultados = new Intent(Definicao.this, Resultatdos.class);
+//                QUANTIDADE DE PESSOAS
+                intentResultados.putExtra("qtd_homem", seekHomens.getProgress());
+                intentResultados.putExtra("qtd_mulher", seekMulheres.getProgress());
+                intentResultados.putExtra("qtd_crianca", seekCriancas.getProgress());
+//                QUANTIDADE DE CARNES
+                intentResultados.putExtra("qtd_carne", total_carne);
+                intentResultados.putExtra("qtd_boi", total_de_cada_carne[0]);
+                intentResultados.putExtra("qtd_porco", total_de_cada_carne[1]);
+                intentResultados.putExtra("qtd_frango", total_de_cada_carne[2]);
+                intentResultados.putExtra("qtd_linguica", total_de_cada_carne[3]);
+//                QUANTIDADE DE BEBIDAS
+                intentResultados.putExtra("qtd_cerveja", calculadora.calcula_cerveja(seekBebeCerveja.getProgress()));
+                intentResultados.putExtra("qtd_refrigerante", calculadora.calcula_refrigerante(seekBebeRefri.getProgress()));
+//                QUANTIDADE DE PERIFÉRICOS
+                intentResultados.putExtra("qtd_carvao", calculadora.calcula_carvao(total_carne));
+                intentResultados.putExtra("qtd_sal", calculadora.calcula_sal(total_carne));
+                intentResultados.putExtra("qtd_copo", calculadora.calcula_copos(dadosMainActivity.getInt("numeroPessoas")));
+
+                startActivity(intentResultados);
             }
         });
 
@@ -178,108 +202,5 @@ public class Definicao extends AppCompatActivity {
         });
 
     }
-
-
-    public double calcula_total_carne(int homens, int mulheres, int criancas){
-        double HOMEM_COME = 0.4;
-        double MULHER_COME = 0.3;
-        double CRIANCA_COME = 0.15;
-
-        double total = (homens * HOMEM_COME) + (mulheres * MULHER_COME) + (criancas * CRIANCA_COME);
-
-        return total;
-    }
-
-
-    public double[] calcula_total_cada_tipo_carne(CheckBox boi, CheckBox porco, CheckBox frango, CheckBox linguica, double total_carne){
-        double total_carne_boi = total_carne * 0.45;
-        double total_carne_porco = total_carne * 0.25;
-        double total_carne_frango = total_carne * 0.2;
-        double total_carne_linguica = total_carne * 0.2;
-
-        double soma_das_porcentagens = 0;
-        double diferenca = 0;
-        int itens_selecionados = 0;
-
-        //        VERIFICA SE O ITEM ESTÁ SELECIONADO E SOMA AO TOTAL RELATIVO A PORCENTAGEM DEFINIDA
-        if (boi.isChecked()){
-            soma_das_porcentagens += total_carne_boi;
-            itens_selecionados += 1;
-        } else {
-            total_carne_boi = 0;
-        }
-
-        if (porco.isChecked()){
-            soma_das_porcentagens += total_carne_porco;
-            itens_selecionados += 1;
-        }else {
-            total_carne_porco = 0;
-        }
-
-        if (frango.isChecked()){
-            soma_das_porcentagens += total_carne_frango;
-            itens_selecionados += 1;
-        }else {
-            total_carne_frango = 0;
-        }
-
-        if (linguica.isChecked()){
-            soma_das_porcentagens += total_carne_linguica;
-            itens_selecionados += 1;
-        }else {
-            total_carne_linguica = 0;
-        }
-
-        //        SE A SOMA RELATIVA AS PORCENTAGENS FOR MAIOR
-        if (soma_das_porcentagens > total_carne){
-            diferenca = soma_das_porcentagens - total_carne;
-
-            if (boi.isChecked()){
-                total_carne_boi -= diferenca / itens_selecionados;
-            }
-
-            if (porco.isChecked()){
-                total_carne_porco -= diferenca / itens_selecionados;
-            }
-
-            if (frango.isChecked()){
-                total_carne_frango -= diferenca / itens_selecionados;
-            }
-
-            if (linguica.isChecked()){
-                total_carne_linguica -= diferenca / itens_selecionados;
-            }
-        }
-        //        SE A SOMA RELATIVA AS PORCENTAGENS FOR MENOR
-        else if (soma_das_porcentagens < total_carne){
-            diferenca = total_carne - soma_das_porcentagens;
-
-            if (boi.isChecked()){
-                total_carne_boi += diferenca / itens_selecionados;
-            }
-
-            if (porco.isChecked()){
-                total_carne_porco += diferenca / itens_selecionados;
-            }
-
-            if (frango.isChecked()){
-                total_carne_frango += diferenca / itens_selecionados;
-            }
-
-            if (linguica.isChecked()){
-                total_carne_linguica += diferenca / itens_selecionados;
-            }
-        }
-
-        else {
-
-        }
-
-
-        double[] peso_de_cada_carne = {total_carne_boi, total_carne_porco, total_carne_frango, total_carne_linguica};
-
-        return peso_de_cada_carne;
-    }
-
 
 }

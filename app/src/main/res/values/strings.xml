@@ -17,6 +17,25 @@
     <string name="bebeCerveja">Quantos bebem cerveja?</string>
     <string name="bebeRefri">Quantos bebem refrigerante?</string>
     <string name="tiposCarne">Carnes servidas:</string>
+    <string name="carneTotal">Carnes:</string>
+    <string name="boi_">Boi:</string>
+    <string name="porco_">Porco:</string>
+    <string name="frango_">Frango:</string>
+    <string name="linguica_">Linguiça:</string>
+    <string name="cerveja_">Cerveja:</string>
+    <string name="refrigerante_">Refrigerante:</string>
+    <string name="carvao_">Carvão:</string>
+    <string name="sal_">Sal Grosso:</string>
+    <string name="copos_">Copos Descartáveis:</string>
+    <string name="oqComprar">O QUE DEVO COMPRAR</string>
+    <string name="participantes">PARTICIPANTES</string>
+    <string name="pesoTotal">PESO TOTAL DAS CARNES</string>
+    <string name="quilos">Kg</string>
+    <string name="latas">Latas</string>
+    <string name="litros">l</string>
+    <string name="unidade">Un</string>
+
     <!--    TEXT VIEW-->
     <string name="valorInicialSeeks">0</string>
+
 </resources>
