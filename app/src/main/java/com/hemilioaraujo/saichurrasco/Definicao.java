@@ -27,13 +27,6 @@ public class Definicao extends AppCompatActivity {
     private int numeroPessoas, ajusteSeek;
     private TextView valorHomens, valorMulheres, valorCriancas, valorBebeCerveja, valorBebeRefri;
 
-    private TextView textViewTotal;
-    private TextView textViewBoi;
-    private TextView textViewPorco;
-    private TextView textViewFrango;
-    private TextView textViewLinguica;
-
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -66,12 +59,6 @@ public class Definicao extends AppCompatActivity {
         checkFrango = (CheckBox) findViewById(R.id.checkFrango);
         checkLinguica = (CheckBox) findViewById(R.id.checkLinguica);
 
-        textViewTotal = (TextView) findViewById(R.id.textViewTotal);
-        textViewBoi = (TextView) findViewById(R.id.textViewBoi);
-        textViewPorco = (TextView) findViewById(R.id.textViewPorco);
-        textViewFrango = (TextView) findViewById(R.id.textViewFrango);
-        textViewLinguica = (TextView) findViewById(R.id.textViewLinguica);
-
         btnCalcular = (Button) findViewById(R.id.btnCalcular);
 
         btnCalcular.setOnClickListener(new View.OnClickListener() {
@@ -81,12 +68,6 @@ public class Definicao extends AppCompatActivity {
                 double total_carne = calculadora.calcula_total_carne(seekHomens.getProgress(), seekMulheres.getProgress(), seekCriancas.getProgress());
 
                total_de_cada_carne = calculadora.calcula_total_cada_tipo_carne(cheeckBoi, checkPorco, checkFrango, checkLinguica, total_carne);
-
-                textViewTotal.setText(String.valueOf(casas_decimais.format(total_carne)));
-                textViewBoi.setText(String.valueOf(casas_decimais.format(total_de_cada_carne[0])));
-                textViewPorco.setText(String.valueOf(casas_decimais.format(total_de_cada_carne[1])));
-                textViewFrango.setText(String.valueOf(casas_decimais.format(total_de_cada_carne[2])));
-                textViewLinguica.setText(String.valueOf(casas_decimais.format(total_de_cada_carne[3])));
 
                 Intent intentResultados = new Intent(Definicao.this, Resultatdos.class);
 //                QUANTIDADE DE PESSOAS
